@@ -1,0 +1,41 @@
+id: "a240-26fd-fdg6-gfdg"
+bans:
+  player:
+    - "Player 2"
+    - "Player 3"
+members:
+  player:
+    - "Player 1"
+    - "Player 4"
+biome: "PLAINS"
+customName: "Ile de Player 1"
+locations:
+  center:
+    location:
+      name: "Oneblock_Overworld"
+      x: "0"
+      y: "73"
+      z: "0"
+  home:
+    location:
+      name: "Oneblock_Overworld"
+      x: "0"
+      y: "73"
+      z: "0"
+  spawn:
+    location:
+      name: "Oneblock_Overworld"
+      x: "0"
+      y: "73"
+      z: "0"
+  warp:
+    location:
+      name: "Oneblock_Overworld"
+      x: "0"
+      y: "73"
+      z: "0"
+stats:
+  level: 2.0
+  nbBlock: 10
+  phase: 1
+  radius: 25
