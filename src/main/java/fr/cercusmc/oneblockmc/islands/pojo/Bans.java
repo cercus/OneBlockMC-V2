@@ -18,20 +18,20 @@ public class Bans {
 
     @XmlElement(required = true, name = "player")
     @JsonProperty("players")
-    private List<String> bans;
+    private List<String> player;
 
     public void setPlayer(List<String> value) {
-        this.bans = value;
+        this.player = value;
     }
 
     public List<String> getPlayer() {
-        return bans;
+        return player;
     }
 
     @Override
     public String toString() {
         return "Bans{" +
-                "player=" + bans +
+                "player=" + player +
                 '}';
     }
 }

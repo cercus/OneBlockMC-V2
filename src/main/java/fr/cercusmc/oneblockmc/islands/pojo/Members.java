@@ -14,20 +14,20 @@ public class Members {
 
     @XmlElement(required = true, name="player")
     @JsonProperty("players")
-    private List<String> bans;
+    private List<String> player;
 
-    public List<String> getPlayer() {
-        return bans;
+    public List<String> getPlayers() {
+        return player;
     }
 
     public void setPlayer(List<String> value) {
-        this.bans = value;
+        this.player = value;
     }
 
     @Override
     public String toString() {
         return "Members{" +
-                "player=" + bans +
+                "player=" + player +
                 '}';
     }
 }
