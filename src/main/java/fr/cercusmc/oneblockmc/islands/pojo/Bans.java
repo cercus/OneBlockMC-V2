@@ -24,6 +24,10 @@ public class Bans {
         this.bans = value;
     }
 
+    public List<String> getPlayer() {
+        return bans;
+    }
+
     @Override
     public String toString() {
         return "Bans{" +

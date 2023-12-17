@@ -13,6 +13,7 @@ public class Island {
     }
 
     @XmlElement(required = true)
+    @JsonProperty("bans")
     private Bans bans;
 
 
