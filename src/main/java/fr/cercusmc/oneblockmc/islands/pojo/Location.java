@@ -2,26 +2,23 @@ package fr.cercusmc.oneblockmc.islands.pojo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.xml.bind.annotation.*;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "location")
 public class Location {
 
-    @XmlElement
+
     @JsonProperty("x")
     private Double x;
 
-    @XmlElement
+
     @JsonProperty("y")
     private Double y;
 
-    @XmlElement
+
     @JsonProperty("z")
     private Double z;
 
 
-    @XmlElement
+
     @JsonProperty("name")
     private String name;
 

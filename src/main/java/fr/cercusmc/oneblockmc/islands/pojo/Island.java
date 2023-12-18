@@ -2,42 +2,32 @@ package fr.cercusmc.oneblockmc.islands.pojo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.xml.bind.annotation.*;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name="island")
 public class Island {
 
     public Island() {
 
     }
 
-    @XmlElement(required = true)
     @JsonProperty("bans")
     private Bans bans;
 
 
-    @XmlElement(required = true)
     @JsonProperty("members")
     private Members members;
 
-    @XmlElement(required = true)
     @JsonProperty("biome")
     private String biome;
 
-    @XmlElement(required = true)
     @JsonProperty("customName")
     private String customName;
 
-    @XmlElement(required = true)
     @JsonProperty("locations")
     private Locations locations;
 
-    @XmlElement(required = true)
     @JsonProperty("stats")
     private Stats stats;
 
-    @XmlAttribute(required = true)
     private String id;
 
     public Bans getBans() { return bans; }

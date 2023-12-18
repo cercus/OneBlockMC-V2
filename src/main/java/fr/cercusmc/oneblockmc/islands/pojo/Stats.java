@@ -2,28 +2,22 @@ package fr.cercusmc.oneblockmc.islands.pojo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "stats")
 public class Stats {
 
-    @XmlElement
+
     @JsonProperty("level")
     private Double level;
 
-    @XmlElement
+
     @JsonProperty("nbBlock")
     private Integer nbBlock;
 
-    @XmlElement
+
     @JsonProperty("phase")
     private Integer phase;
 
-    @XmlElement
+
     @JsonProperty("radius")
     private Integer radius;
 
