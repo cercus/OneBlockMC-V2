@@ -51,13 +51,14 @@ public class SaveFileScheduler implements Runnable {
                     file.delete();
             }
         }
-        for(Map.Entry<String, Island> is : OneBlockMC.getIslands().entrySet()){
+        for(Island entry : OneBlockMC.getIslands()){
 
+            String name = entry.getId();
             switch(type) {
-                case JSON -> WriteFile.objectToJson(is.getValue(), pathIsland +"json/"+is.getKey().replace(is.getKey().substring(is.getKey().indexOf('.')), ".json"));
 
-                case YAML -> WriteFile.objectToYml(is.getValue(), pathIsland +"yaml/"+is.getKey().replace(is.getKey().substring(is.getKey().indexOf('.')), ".yml"));
+                case JSON -> WriteFile.objectToJson(entry, pathIsland + "json/"+name.replace(name.substring(name.indexOf('.')), ".json"));
 
+                case YAML -> WriteFile.objectToYml(entry, pathIsland + "yaml/"+name.replace(name.substring(name.indexOf('.')), ".yml"));
             }
         }
     }

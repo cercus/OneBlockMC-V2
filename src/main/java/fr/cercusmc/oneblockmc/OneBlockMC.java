@@ -22,7 +22,7 @@ public final class OneBlockMC extends JavaPlugin {
 
     private static OneBlockMC instance;
 
-    private final static HashMap<String, Island> islands = new HashMap<>();
+    private final static List<Island> islands = new ArrayList<>();
 
     private static Logger log;
 
@@ -103,7 +103,7 @@ public final class OneBlockMC extends JavaPlugin {
         if(filesJson != null && Arrays.stream(filesJson).findAny().isPresent()) {
             for(File f : filesJson) {
                 Island is = ReadFile.jsonToObject(Island.class, f.getPath());
-                if(is != null) islands.put(f.getName(), is);
+                if(is != null) islands.add(is);
             }
 
             if(!Objects.equals(type, FileType.JSON)) {
@@ -113,7 +113,7 @@ public final class OneBlockMC extends JavaPlugin {
         } else if(filesYaml != null && Arrays.stream(filesYaml).findAny().isPresent()) {
             for(File f : filesYaml) {
                 Island is = ReadFile.yamlToObject(Island.class, f.getPath());
-                if(is != null) islands.put(f.getName(), is);
+                if(is != null) islands.add(is);
             }
 
             if(!Objects.equals(type, FileType.YAML)) {
@@ -129,14 +129,14 @@ public final class OneBlockMC extends JavaPlugin {
             f.delete();
         }
         MessageUtil.sendMessage(null, OneBlockMC.getMessages().get("create_new_file"));
-        for(Map.Entry<String, Island> entry : islands.entrySet()) {
-            System.out.println(entry.getKey() + " / " + entry.getValue() + " / type = " + type);
-            String name = entry.getKey();
+        for(Island entry : islands) {
+
+            String name = entry.getId();
             switch(type) {
 
-                case JSON -> WriteFile.objectToJson(entry.getValue(), pathIsland + "json/"+name.replace(name.substring(name.indexOf('.')), ".json"));
+                case JSON -> WriteFile.objectToJson(entry, pathIsland + "json/"+name.replace(name.substring(name.indexOf('.')), ".json"));
 
-                case YAML -> WriteFile.objectToYml(entry.getValue(), pathIsland + "yaml/"+name.replace(name.substring(name.indexOf('.')), ".yml"));
+                case YAML -> WriteFile.objectToYml(entry, pathIsland + "yaml/"+name.replace(name.substring(name.indexOf('.')), ".yml"));
             }
         }
 
@@ -164,7 +164,7 @@ public final class OneBlockMC extends JavaPlugin {
         return levels;
     }
 
-    public static HashMap<String, Island> getIslands() {
+    public static List<Island> getIslands() {
         return islands;
     }
 
