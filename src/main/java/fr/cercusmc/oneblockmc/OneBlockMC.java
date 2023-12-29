@@ -1,14 +1,22 @@
 package fr.cercusmc.oneblockmc;
 
+import fr.cercusmc.oneblockmc.islands.BiomeUtils;
+import fr.cercusmc.oneblockmc.islands.SaveFileScheduler;
 import fr.cercusmc.oneblockmc.islands.pojo.*;
+import fr.cercusmc.oneblockmc.utils.Logger;
+import fr.cercusmc.oneblockmc.utils.MessageUtil;
 import fr.cercusmc.oneblockmc.utils.ReadFile;
 import fr.cercusmc.oneblockmc.utils.WriteFile;
 import fr.cercusmc.oneblockmc.utils.enums.FileType;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.*;
+
+import static fr.cercusmc.oneblockmc.islands.IslandUtils.computeIslandLevel;
 
 public final class OneBlockMC extends JavaPlugin {
 
@@ -16,32 +24,71 @@ public final class OneBlockMC extends JavaPlugin {
 
     private final static HashMap<String, Island> islands = new HashMap<>();
 
+    private static Logger log;
+
+    private static Map<String, String> messages;
+    private static Map<String, Double> levels;
+
+    private static List<Biome> biomes;
+
     File fileJsonFolder;
     File fileYmlFolder;
-
     String pathIsland;
 
     @Override
     public void onEnable() {
         instance = this;
 
+
+
         pathIsland = instance.getDataFolder().getPath() + "/islands/";
         fileJsonFolder = new File(pathIsland + "json/");
         fileYmlFolder = new File(pathIsland + "yaml/");
 
+        createAndLoadFiles();
+
+        messages = ReadFile.yamlToMap(instance.getDataFolder().getPath()+"/messages.yml", String.class);
+        biomes = BiomeUtils.loadBiomes( instance.getDataFolder().getPath()+"/biomes.yml");
+
+
+        log = new Logger(messages.get("prefix"));
+
         saveDefaultConfig();
         reloadConfig();
 
+        loadIslands();
 
+        Bukkit.getScheduler().runTaskTimerAsynchronously(instance, new SaveFileScheduler(FileType.valueOf(getConfig().getString("file_format", "YAML").toUpperCase())), 0, 20*60*5);
+
+    }
+
+
+    private void createAndLoadFiles() {
         if(!fileYmlFolder.exists())
             fileYmlFolder.mkdirs();
 
         if(!fileJsonFolder.exists())
             fileJsonFolder.mkdirs();
 
-        loadIslands();
+        File messagesFile = new File(instance.getDataFolder().getPath()+"/messages.yml");
+        if(!messagesFile.exists()) instance.saveResource("messages.yml", false);
+
+        File biomeFile = new File(instance.getDataFolder().getPath()+"/biomes.yml");
+        if(biomeFile.exists()) instance.saveResource("biome.yml", false);
+
+        File levelsFile = new File(instance.getDataFolder().getPath()+"/levels.yml");
+        if(!levelsFile.exists()) instance.saveResource("levels.yml", false);
+
+        levels = ReadFile.yamlToMap(instance.getDataFolder().getPath()+"/levels.yml", Double.class);
+
+        File phasesFile = new File(instance.getDataFolder().getPath()+"/phases.yml");
+        if(!phasesFile.exists()) instance.saveResource("phases.yml", false);
+
+
 
     }
+
+
 
     /**
      * Charger toutes les configurations d'îles
@@ -77,11 +124,11 @@ public final class OneBlockMC extends JavaPlugin {
     }
 
     private void convertFile(FileType type, File[] files) {
-        System.out.println("Suppression des anciens fichiers...");
+        MessageUtil.sendMessage(null, OneBlockMC.getMessages().get("delete_old_file"));
         for(File f : files) {
             f.delete();
         }
-        System.out.println("Création des nouveaux fichiers...");
+        MessageUtil.sendMessage(null, OneBlockMC.getMessages().get("create_new_file"));
         for(Map.Entry<String, Island> entry : islands.entrySet()) {
             System.out.println(entry.getKey() + " / " + entry.getValue() + " / type = " + type);
             String name = entry.getKey();
@@ -97,10 +144,35 @@ public final class OneBlockMC extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        SaveFileScheduler.saveFiles(pathIsland, FileType.valueOf(getConfig().getString("file_format", "YAML").toUpperCase()));
     }
 
     public static OneBlockMC getInstance() {
         return instance;
+    }
+
+
+    public static Logger getLog() {
+        return log;
+    }
+
+    public static Map<String, String> getMessages() {
+        return messages;
+    }
+
+    public static Map<String, Double> getLevels() {
+        return levels;
+    }
+
+    public static HashMap<String, Island> getIslands() {
+        return islands;
+    }
+
+    public static List<Biome> getBiomes() {
+        return biomes;
+    }
+
+    public String getPathIsland() {
+        return pathIsland;
     }
 }

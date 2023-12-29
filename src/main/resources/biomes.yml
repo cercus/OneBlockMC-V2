@@ -1,0 +1,218 @@
+biomes:
+  OCEAN:
+    id: 1
+    name: "&eBiome Océan"
+    icon: "WATER_BUCKET"
+    description:
+      - ""
+      - "&eUn monde aquatique sur votre île ?"
+      - ""
+    permission: true
+  FROZEN_OCEAN:
+    id: 2
+    name: "&eOcéan gelé"
+    icon: "ICE"
+    description:
+      - ""
+      - "&eRendez-vous au pôle Nord ?"
+      - ""
+    permission: true
+  COLD_OCEAN:
+    id: 3
+    name: "&eOcéan froid"
+    icon: "COD_BUCKET"
+    description:
+      - ""
+      - "&eUn biome moins froid que l'océan gelé"
+      - ""
+    permission: true
+  LUKEWARM_OCEAN:
+    id: 4
+    name: "&eOcéan tiède"
+    icon: "PUFFERFISH_BUCKET"
+    description:
+      - ""
+      - "&eUne ambiance moins chaude"
+      - ""
+    permission: true
+  WARM_OCEAN:
+    id: 5
+    name: "Océan chaud"
+    icon: "TROPICAL_FISH_BUCKET"
+    description:
+      - ""
+      - "&eUn océan tropical !"
+      - ""
+    permission: true
+  RIVER:
+    id: 6
+    name: "&eRivière"
+    icon: "POTION"
+    description:
+      - ""
+      - "&ePromenade le long d'une rivière ?"
+      - ""
+    permission: true
+  BEACH:
+    id: 7
+    name: "&ePlage"
+    icon: "TURTLE_EGG"
+    description:
+      - ""
+      - "&eUn petit moment de détente ?"
+      - ""
+    permission: true
+  PLAINS:
+    id: 8
+    name: "&ePlaines"
+    icon: "OAK_SAPLING"
+    description:
+      - ""
+      - "&eUn biome de départ très utile pour avoir des animaux"
+      - ""
+    permission: true
+  FOREST:
+    id: 9
+    name: "&eForêt"
+    icon: "OAK_LEAVES"
+    description:
+      - ""
+      - "&eUne forêt rempli de bestioles ?"
+      - ""
+    permission: true
+  FLOWER_FOREST:
+    id: 10
+    name: "&eForêt de fleurs"
+    icon: "RED_TULIP"
+    description:
+      - ""
+      - "&eUne forêt avec plein de fleurs diverses"
+      - ""
+    permission: true
+  DARK_FOREST:
+    id: 11
+    name: "&eForêt sombre"
+    icon: "DARK_OAK_LOG"
+    description:
+      - ""
+      - "&eUne sombre forêt... quel secret s'y cache ?"
+      - ""
+    permission: true
+  TAIGA:
+    id: 12
+    name: "&eTaiga"
+    icon: "SPRUCE_SAPLING"
+    description:
+      - ""
+      - "&eUne forêt de sapin"
+      - ""
+    permission: true
+  JUNGLE:
+    id: 13
+    name: "&eJungle"
+    icon: "JUNGLE_SAPLING"
+    description:
+      - ""
+      - "&eVivre comme Tarzan ?"
+      - ""
+    permission: true
+  BAMBOO_JUNGLE:
+    id: 14
+    name: "&eJungle de bambous"
+    icon: "BAMBOO"
+    description:
+      - ""
+      - "&eRencontrerez-vous des pandas ?"
+      - ""
+    permission: true
+  SWAMP:
+    id: 16
+    name: "&eMarais"
+    icon: "SLIME_BALL"
+    description:
+      - ""
+      - "&eLe lieu préféré des slimes !"
+      - ""
+    permission: true
+  DESERT:
+    id: 17
+    name: "&eDésert"
+    icon: "SAND"
+    description:
+      - ""
+      - "&eUne zone sans eau ou presque..."
+      - ""
+    permission: true
+  SAVANNA:
+    id: 18
+    name: "&eSavanne"
+    icon: "ACACIA_SAPLING"
+    description:
+      - ""
+      - "&eUne savanne aride avec des animaux"
+      - ""
+    permission: true
+  BADLANDS:
+    id: 19
+    name: "&eBadlands"
+    icon: "TERRACOTTA"
+    description:
+      - ""
+      - "&eDirection le Grand Canyon Américain ?"
+      - ""
+    permission: true
+  SNOWY_PLAINS:
+    id: 20
+    name: "&ePlaines enneigées"
+    icon: "SNOW_BLOCK"
+    description:
+      - ""
+      - "&eSommes-nous en hiver ?"
+      - ""
+    permission: true
+  SNOWY_TAIGA:
+    id: 21
+    name: "&eTaiga enneigé"
+    icon: "SPRUCE_LEAVES"
+    description:
+      - ""
+      - "&eUne taiga avec de la neige"
+      - ""
+    permission: true
+  GROVE:
+    id: 22
+    name: "&eBosquet"
+    icon: "SNOW"
+    description:
+      - ""
+      - "&eUn biome mixte entre la plaine et les montagnes"
+      - ""
+    permission: true
+  MEADOW:
+    id: 23
+    name: "Prairie"
+    icon: "WHITE_TULIP"
+    description:
+      - ""
+      - "&eUne prairie au pied des montagnes contenant des fleurs"
+      - ""
+    permission: true
+  SNOWY_SLOPES:
+    id: 24
+    name: "&ePentes enneigées"
+    icon: "POWDER_SNOW_BUCKET"
+    description:
+      - ""
+      - "&eUne pente pour glisser en ski !"
+      - ""
+    permission: true
+  MUSHROOM_FIELDS:
+    id: 25
+    name: "&eMushroom"
+    icon: "MYCELIUM"
+    description:
+      - ""
+      - "&eL'endroit préféré des mushrooms"
+      - ""
+    permission: true
+

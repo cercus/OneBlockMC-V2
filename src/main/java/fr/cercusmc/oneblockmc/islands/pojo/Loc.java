@@ -23,4 +23,6 @@ public class Loc {
                 "location=" + location +
                 '}';
     }
+
+
 }

@@ -1,0 +1,5 @@
+prefix: "§e[§6OneBlockMC§e]"
+delete_old_file: "§cSuppression des anciens fichiers..."
+create_new_file: "§aCréation des nouveaux fichiers..."
+save_file_in_progress: "§aSauvegarde en cours des îles..."
+save_file_finished: "§aSauvegarde terminé des îles..."
