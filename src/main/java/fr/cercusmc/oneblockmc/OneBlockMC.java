@@ -1,5 +1,7 @@
 package fr.cercusmc.oneblockmc;
 
+import fr.cercusmc.oneblockmc.generators.BiomeGenerator;
+import fr.cercusmc.oneblockmc.generators.VoidGenerator;
 import fr.cercusmc.oneblockmc.islands.BiomeUtils;
 import fr.cercusmc.oneblockmc.islands.SaveFileScheduler;
 import fr.cercusmc.oneblockmc.islands.pojo.*;
@@ -9,6 +11,8 @@ import fr.cercusmc.oneblockmc.utils.ReadFile;
 import fr.cercusmc.oneblockmc.utils.WriteFile;
 import fr.cercusmc.oneblockmc.utils.enums.FileType;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -30,6 +34,9 @@ public final class OneBlockMC extends JavaPlugin {
     private static Map<String, Double> levels;
 
     private static List<Biome> biomes;
+
+    private World overworld;
+    private World nether;
 
     File fileJsonFolder;
     File fileYmlFolder;
@@ -56,10 +63,37 @@ public final class OneBlockMC extends JavaPlugin {
         saveDefaultConfig();
         reloadConfig();
 
+        loadOverworld();
+        loadNether();
+
         loadIslands();
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(instance, new SaveFileScheduler(FileType.valueOf(getConfig().getString("file_format", "YAML").toUpperCase())), 0, 20*60*5);
 
+    }
+
+    private void loadNether() {
+        String world = getConfig().getString("nether_name", "Oneblock_nether");
+        org.bukkit.block.Biome biome = org.bukkit.block.Biome.valueOf(getConfig().getString("biome_nether_default", "NETHER_WASTES").toUpperCase());
+        nether = createOrLoadWorld(world, World.Environment.NETHER, biome);
+    }
+
+    private World createOrLoadWorld(String world, World.Environment env, org.bukkit.block.Biome biome) {
+        if(Bukkit.getWorld(world) == null) {
+            WorldCreator wc = new WorldCreator(world);
+            wc.environment(env);
+            wc.biomeProvider(new BiomeGenerator(biome));
+            wc.generator(new VoidGenerator());
+            return Bukkit.getServer().createWorld(wc);
+        }
+        return Bukkit.getWorld(world);
+    }
+
+    private void loadOverworld() {
+
+        String world = getConfig().getString("overworld_name", "Oneblock_overworld");
+        org.bukkit.block.Biome biome = org.bukkit.block.Biome.valueOf(getConfig().getString("biome_overworld_default", "PLAINS").toUpperCase());
+        overworld = createOrLoadWorld(world, World.Environment.NORMAL, biome);
     }
 
 
