@@ -16,10 +16,10 @@ import java.util.*;
 
 public class OneBlockCommand implements CommandExecutor {
 
-    private final List<SubCommand> subCommands = Arrays.asList(new CreateCommand(), new DeleteCommand(),
+    private static final List<SubCommand> subCommands = Arrays.asList(new CreateCommand(), new DeleteCommand(),
             new SetHomeCommand(), new DelHomeCommand(), new HomeCommand(), new BanCommand(),
             new KickCommand(), new SetWarpCommand(), new WarpCommand(), new LeaveCommand(),
-            new InviteCommand(), new AcceptCommand(), new DenyCommand());
+            new InviteCommand(), new AcceptCommand(), new DenyCommand(), new HelpCommand());
 
 
     @Override
@@ -56,5 +56,9 @@ public class OneBlockCommand implements CommandExecutor {
 
     private boolean checkArg(String arg, SubCommand k) {
         return k.getName().equals(arg) || k.getAliases().contains(arg);
+    }
+
+    public static List<SubCommand> getSubCommands() {
+        return subCommands;
     }
 }
