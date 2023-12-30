@@ -35,6 +35,7 @@ public class ReadFile {
             Yaml yaml = new Yaml(new Constructor(clazz, new LoaderOptions()));
             return yaml.load(Files.newInputStream(new File(fileName).toPath()));
         } catch(IOException e) {
+            e.printStackTrace();
             return null;
         }
     }

@@ -16,6 +16,8 @@ public interface SubCommand {
 
     List<String> getAliases();
 
+    String getSyntax();
+
     public default boolean hasPermission(CommandSender sender, String permission) {
         return sender.isOp() || sender.hasPermission(permission);
     }

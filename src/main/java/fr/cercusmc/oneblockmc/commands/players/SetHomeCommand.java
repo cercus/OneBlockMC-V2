@@ -30,4 +30,9 @@ public class SetHomeCommand implements SubCommand {
     public List<String> getAliases() {
         return null;
     }
+
+    @Override
+    public String getSyntax() {
+        return null;
+    }
 }

@@ -1,5 +1,8 @@
+number_of_island: 0
 file_format: "YAML"
 overworld_name: "Oneblock_overworld"
 biome_overworld_default: "PLAINS"
 nether_name: "Oneblock_nether"
 biome_nether_default: "NETHER_WASTES"
+default_radius: 25
+space_between_island: 25

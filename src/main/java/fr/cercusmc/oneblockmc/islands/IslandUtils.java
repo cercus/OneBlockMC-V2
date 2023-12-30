@@ -1,14 +1,18 @@
 package fr.cercusmc.oneblockmc.islands;
 
 import fr.cercusmc.oneblockmc.OneBlockMC;
-import fr.cercusmc.oneblockmc.islands.pojo.Island;
+import fr.cercusmc.oneblockmc.islands.pojo.*;
+import fr.cercusmc.oneblockmc.utils.MessageUtil;
+import fr.cercusmc.oneblockmc.utils.Position;
+import fr.cercusmc.oneblockmc.utils.WriteFile;
+import fr.cercusmc.oneblockmc.utils.enums.FileType;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.util.BoundingBox;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class IslandUtils {
 
@@ -58,7 +62,7 @@ public class IslandUtils {
      * @return true if player has island
      */
     public static boolean playerHasIsland(UUID uuid){
-        return OneBlockMC.getIslands().entrySet().stream().anyMatch(k -> playerIsOwner(k.getValue(), uuid) || k.getValue().getMembers().getPlayers().contains(uuid.toString()));
+        return OneBlockMC.getIslands().stream().anyMatch(k -> playerIsOwner(k, uuid) || k.getMembers().getPlayers().contains(uuid.toString()));
     }
 
     /**
@@ -72,7 +76,63 @@ public class IslandUtils {
     }
 
     public static Island createIsland(final UUID uuid) {
-        return null;
+
+        MessageUtil.sendMessage(uuid, OneBlockMC.getMessages().get("create_island_in_progress"));
+
+        Island newIs = new Island();
+        newIs.setId(uuid.toString());
+        newIs.setBiome(OneBlockMC.getInstance().getConfig().getString("biome_overworld_default", "PLAINS"));
+        newIs.setCustomName(MessageUtil.format(OneBlockMC.getMessages().get("default_custom_name_island"), Collections.singletonMap("%player%", Bukkit.getPlayer(uuid))));
+
+        Members members = new Members();
+        members.addPlayer(uuid.toString());
+        newIs.setMembers(members);
+
+        Bans bans = new Bans();
+        bans.setPlayers(new ArrayList<>());
+        newIs.setBans(bans);
+
+        Stats stats = new Stats();
+        stats.setRadius(OneBlockMC.getInstance().getConfig().getInt("default_radius", 25));
+        stats.setPhase(1);
+        stats.setNbBlock(0);
+        stats.setLevel(0.0);
+        newIs.setStats(stats);
+
+        Locations locs = new Locations();
+        Position coordIsland = Position.findNextLocation(OneBlockMC.getInstance().getConfig().getInt("number_of_island", 0));
+        System.out.println("coordIsland="+coordIsland);
+        fr.cercusmc.oneblockmc.islands.pojo.Location loc = new fr.cercusmc.oneblockmc.islands.pojo.Location();
+        loc.setName(OneBlockMC.getInstance().getConfig().getString("overworld_name", "Oneblock_overworld"));
+        loc.setX(coordIsland.x());
+        loc.setY(coordIsland.y());
+        loc.setZ(coordIsland.z());
+
+        Loc loc1 = new Loc();
+        loc1.setLocation(loc);
+
+        locs.setWarp(loc1);
+        locs.setHome(loc1);
+        locs.setSpawn(loc1);
+        locs.setCenter(loc1);
+        newIs.setLocations(locs);
+        System.out.println("newIS="+newIs);
+        OneBlockMC.getIslands().add(newIs);
+
+        FileType type = FileType.valueOf(OneBlockMC.getInstance().getConfig().getString("file_format", "YAML").toUpperCase());
+
+        switch(type) {
+            case JSON -> WriteFile.objectToJson(newIs, OneBlockMC.getInstance().getPathIsland() + "json/"+uuid+".json");
+            case YAML -> WriteFile.objectToYml(newIs, OneBlockMC.getInstance().getPathIsland() + "yaml/"+uuid+".yml");
+        }
+
+        OneBlockMC.getInstance().getOverworld().getBlockAt(loc.toLocation()).setType(Material.GRASS_BLOCK);
+
+        MessageUtil.sendMessage(uuid, OneBlockMC.getMessages().get("create_island_finished"));
+
+        Objects.requireNonNull(Bukkit.getPlayer(uuid)).teleport(Position.getCenterOfBlock(loc.toLocation()));
+
+        return newIs;
     }
 
     public static Island deleteIsland(Island is) {

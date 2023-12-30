@@ -5,6 +5,7 @@ import fr.cercusmc.oneblockmc.commands.players.*;
 import fr.cercusmc.oneblockmc.islands.IslandUtils;
 import fr.cercusmc.oneblockmc.islands.pojo.Island;
 import fr.cercusmc.oneblockmc.utils.MessageUtil;
+import fr.cercusmc.oneblockmc.utils.Position;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,8 +13,6 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
 import java.util.*;
-
-import static fr.cercusmc.oneblockmc.islands.IslandUtils.createIsland;
 
 public class OneBlockCommand implements CommandExecutor {
 
@@ -47,11 +46,11 @@ public class OneBlockCommand implements CommandExecutor {
         return true;
     }
 
-    private void teleportPlayerToIsland(Player player) {
+    public static void teleportPlayerToIsland(Player player) {
 
         Optional<Island> is = IslandUtils.getIslandByUuid(OneBlockMC.getIslands(), player.getUniqueId());
         is.ifPresentOrElse(
-                (value)-> player.teleport(value.getLocations().getSpawn().getLocation().toLocation()),
+                (value)-> player.teleport(Position.getCenterOfBlock(value.getLocations().getSpawn().getLocation().toLocation())),
                 () -> OneBlockMC.getIslands().add(IslandUtils.createIsland(player.getUniqueId())));
     }
 

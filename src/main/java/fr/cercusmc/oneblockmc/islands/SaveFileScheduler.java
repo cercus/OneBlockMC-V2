@@ -56,9 +56,9 @@ public class SaveFileScheduler implements Runnable {
             String name = entry.getId();
             switch(type) {
 
-                case JSON -> WriteFile.objectToJson(entry, pathIsland + "json/"+name.replace(name.substring(name.indexOf('.')), ".json"));
+                case JSON -> WriteFile.objectToJson(entry, pathIsland + "json/"+name+".json");
 
-                case YAML -> WriteFile.objectToYml(entry, pathIsland + "yaml/"+name.replace(name.substring(name.indexOf('.')), ".yml"));
+                case YAML -> WriteFile.objectToYml(entry, pathIsland + "yaml/"+name+ ".yml");
             }
         }
     }

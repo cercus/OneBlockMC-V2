@@ -1,5 +1,6 @@
 package fr.cercusmc.oneblockmc;
 
+import fr.cercusmc.oneblockmc.commands.OneBlockCommand;
 import fr.cercusmc.oneblockmc.generators.BiomeGenerator;
 import fr.cercusmc.oneblockmc.generators.VoidGenerator;
 import fr.cercusmc.oneblockmc.islands.BiomeUtils;
@@ -70,6 +71,8 @@ public final class OneBlockMC extends JavaPlugin {
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(instance, new SaveFileScheduler(FileType.valueOf(getConfig().getString("file_format", "YAML").toUpperCase())), 0, 20*60*5);
 
+        getCommand("ob").setExecutor(new OneBlockCommand());
+
     }
 
     private void loadNether() {
@@ -117,6 +120,7 @@ public final class OneBlockMC extends JavaPlugin {
 
         File phasesFile = new File(instance.getDataFolder().getPath()+"/phases.yml");
         if(!phasesFile.exists()) instance.saveResource("phases.yml", false);
+
 
 
 
@@ -208,5 +212,9 @@ public final class OneBlockMC extends JavaPlugin {
 
     public String getPathIsland() {
         return pathIsland;
+    }
+
+    public World getOverworld() {
+        return overworld;
     }
 }

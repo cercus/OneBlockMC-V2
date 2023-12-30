@@ -2,3 +2,5 @@ name: OneBlockMC
 version: '${project.version}'
 main: fr.cercusmc.oneblockmc.OneBlockMC
 api-version: '1.20'
+commands:
+  ob:
