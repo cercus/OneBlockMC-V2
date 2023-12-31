@@ -4,6 +4,7 @@ import fr.cercusmc.oneblockmc.commands.OneBlockCommand;
 import fr.cercusmc.oneblockmc.generators.BiomeGenerator;
 import fr.cercusmc.oneblockmc.generators.VoidGenerator;
 import fr.cercusmc.oneblockmc.islands.BiomeUtils;
+import fr.cercusmc.oneblockmc.islands.IslandUtils;
 import fr.cercusmc.oneblockmc.islands.SaveFileScheduler;
 import fr.cercusmc.oneblockmc.islands.pojo.*;
 import fr.cercusmc.oneblockmc.utils.Logger;

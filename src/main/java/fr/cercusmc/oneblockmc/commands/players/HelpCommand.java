@@ -25,7 +25,8 @@ public class HelpCommand implements SubCommand {
     public void execute(CommandSender sender, String[] args) {
         if(args.length == 1) {
             for(SubCommand s : OneBlockCommand.getSubCommands()) {
-                MessageUtil.sendMessage(((Player) sender).getUniqueId(), OneBlockMC.getMessages().get("format_help_command").replace("%syntax%", MessageUtil.format(s.getSyntax())).replace("%description%", MessageUtil.format(s.getDescription())));
+                if(s.getSyntax() == null || s.getDescription() == null) continue;
+                MessageUtil.sendMessage(((Player) sender).getUniqueId(), OneBlockMC.getMessages().get("format_help_command").replace("%syntax%", s.getSyntax()).replace("%description%", s.getDescription()));
             }
 
         } else {

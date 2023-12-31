@@ -47,6 +47,6 @@ public class LevelCommand implements SubCommand {
 
     @Override
     public String getSyntax() {
-        return MessageUtil.format(OneBlockMC.getMessages().get("command_help_syntax"));
+        return MessageUtil.format(OneBlockMC.getMessages().get("command_level_syntax"));
     }
 }

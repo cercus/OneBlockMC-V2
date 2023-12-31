@@ -34,12 +34,12 @@ public class MessageUtil {
     public static String format(String message, Map<String, Object> values) {
         message = format(message);
 
-        if(values == null) return ChatColor.translateAlternateColorCodes('&', message);
+        if(values == null) return format(message);
 
         for(Map.Entry<String, Object>entry : values.entrySet()) {
             message= message.replace(entry.getKey(), entry.getValue().toString());
         }
-        return ChatColor.translateAlternateColorCodes('&', message);
+        return format(message);
 
     }
 

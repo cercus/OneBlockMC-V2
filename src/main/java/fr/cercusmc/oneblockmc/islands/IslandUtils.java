@@ -53,7 +53,9 @@ public class IslandUtils {
     }
 
     public static BoundingBox getIslandBox(Island is) {
-        return BoundingBox.of(is.getLocations().getCenter().getLocation().toLocation(), Double.valueOf(is.getStats().getRadius()), 250.0, Double.valueOf(is.getStats().getRadius()));
+        org.bukkit.World world = is.getLocations().getCenter().getLocation().toLocation().getWorld();
+        if(world == null) return null;
+        return BoundingBox.of(is.getLocations().getCenter().getLocation().toLocation(), Double.valueOf(is.getStats().getRadius()), Math.abs(world.getMinHeight())+world.getMaxHeight(), Double.valueOf(is.getStats().getRadius()));
     }
 
     /**
@@ -183,9 +185,7 @@ public class IslandUtils {
 
     public static void computeIslandLevel(Island is, UUID uuid) {
         MessageUtil.sendMessage(uuid, OneBlockMC.getMessages().get("computing_level_island"));
-        ComputeLevelThread run = new ComputeLevelThread(is, uuid);
-        Thread t = new Thread(run);
-        t.start();
+        ComputeLevelIsland.calcIsland(is, Bukkit.getPlayer(uuid));
 
 
     }

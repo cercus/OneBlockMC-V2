@@ -55,7 +55,7 @@ public class OneBlockCommand implements CommandExecutor {
     }
 
     private boolean checkArg(String arg, SubCommand k) {
-        return k.getName().equals(arg) || k.getAliases().contains(arg);
+        return k.getName() != null && k.getAliases() != null && (k.getName().equals(arg) || k.getAliases().contains(arg));
     }
 
     public static List<SubCommand> getSubCommands() {
