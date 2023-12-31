@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
+import org.bukkit.entity.Player;
 import org.bukkit.util.BoundingBox;
 
 import java.util.*;
@@ -35,7 +36,7 @@ public class IslandUtils {
     public static Optional<Island> getIslandByLocation(List<Island> islands, Location loc) {
 
         for(Island is : islands){
-            BoundingBox box = BoundingBox.of(is.getLocations().getCenter().getLocation().toLocation(), Double.valueOf(is.getStats().getRadius()), 250.0, Double.valueOf(is.getStats().getRadius()));
+            BoundingBox box = BoundingBox.of(is.getLocations().getCenter().getLocation().toLocation(), OneBlockMC.getInstance().getConfig().getDouble("max_radius", 250.0), 250.0, OneBlockMC.getInstance().getConfig().getDouble("max_radius", 250.0));
             if(box.contains(loc.getX(), loc.getY(), loc.getZ())) return Optional.of(is);
 
         }
@@ -44,18 +45,28 @@ public class IslandUtils {
 
     /**
      * Check if player is on his island
-     * @param is Island
-     * @param locPlayer Location of player
+     * @param p Player
      * @return true if player is on his island
      */
-    public static boolean playerIsInHisIsland(Island is, Location locPlayer) {
-        return getIslandBox(is).contains(locPlayer.getX(), locPlayer.getY(), locPlayer.getZ());
+    public static boolean playerIsInHisIsland(Player p) {
+        Optional<Island> is = getIslandByUuid(OneBlockMC.getIslands(), p.getUniqueId());
+        return is.filter(island -> playerBelongToIsland(island, p.getUniqueId()) && Objects.requireNonNull(getIslandBox(island)).contains(p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ())).isPresent();
     }
 
     public static BoundingBox getIslandBox(Island is) {
         org.bukkit.World world = is.getLocations().getCenter().getLocation().toLocation().getWorld();
         if(world == null) return null;
-        return BoundingBox.of(is.getLocations().getCenter().getLocation().toLocation(), Double.valueOf(is.getStats().getRadius()), Math.abs(world.getMinHeight())+world.getMaxHeight(), Double.valueOf(is.getStats().getRadius()));
+        return BoundingBox.of(is.getLocations().getCenter().getLocation().toLocation(), OneBlockMC.getInstance().getConfig().getDouble("max_radius", 250.0), Math.abs(world.getMinHeight())+world.getMaxHeight(), OneBlockMC.getInstance().getConfig().getDouble("max_radius", 250.0));
+    }
+
+    /**
+     * Check if player belong to island given
+     * @param is Island
+     * @param uuid UUID of player
+     * @return true if player belongs to island
+     */
+    public static boolean playerBelongToIsland(Island is, UUID uuid){
+        return playerIsOwner(is, uuid) || playerIsMemberOfIsland(is, uuid);
     }
 
     /**
@@ -64,7 +75,7 @@ public class IslandUtils {
      * @return true if player has island
      */
     public static boolean playerHasIsland(UUID uuid){
-        return OneBlockMC.getIslands().stream().anyMatch(k -> playerIsOwner(k, uuid) || k.getMembers().getPlayers().contains(uuid.toString()));
+        return OneBlockMC.getIslands().stream().anyMatch(k -> playerIsOwner(k, uuid) || playerIsMemberOfIsland(k, uuid));
     }
 
     /**
@@ -77,6 +88,16 @@ public class IslandUtils {
         return is.getId().equals(uuid.toString());
     }
 
+    /**
+     * Check if a player is member of island
+     * @param is Island
+     * @param uuid UUID of player
+     * @return true if player is member of island
+     */
+    public static boolean playerIsMemberOfIsland(final Island is, final UUID uuid) {
+        if(is.getMembers().getPlayers() == null) return false;
+        return is.getMembers().getPlayers().contains(uuid.toString());
+    }
     public static Island createIsland(final UUID uuid) {
 
         MessageUtil.sendMessage(uuid, OneBlockMC.getMessages().get("create_island_in_progress"));

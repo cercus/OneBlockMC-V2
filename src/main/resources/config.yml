@@ -6,3 +6,4 @@ nether_name: "Oneblock_nether"
 biome_nether_default: "NETHER_WASTES"
 default_radius: 25
 space_between_island: 25
+max_radius: 50

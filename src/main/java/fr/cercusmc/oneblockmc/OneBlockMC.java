@@ -7,6 +7,7 @@ import fr.cercusmc.oneblockmc.islands.BiomeUtils;
 import fr.cercusmc.oneblockmc.islands.IslandUtils;
 import fr.cercusmc.oneblockmc.islands.SaveFileScheduler;
 import fr.cercusmc.oneblockmc.islands.pojo.*;
+import fr.cercusmc.oneblockmc.listeners.PlaceBlockListener;
 import fr.cercusmc.oneblockmc.utils.Logger;
 import fr.cercusmc.oneblockmc.utils.MessageUtil;
 import fr.cercusmc.oneblockmc.utils.ReadFile;
@@ -70,6 +71,8 @@ public final class OneBlockMC extends JavaPlugin {
         Bukkit.getScheduler().runTaskTimerAsynchronously(instance, new SaveFileScheduler(FileType.valueOf(getConfig().getString("file_format", "YAML").toUpperCase())), 0, 20*60*5);
 
         Objects.requireNonNull(getCommand("ob")).setExecutor(new OneBlockCommand());
+
+        Bukkit.getPluginManager().registerEvents(new PlaceBlockListener(), instance);
 
     }
 
