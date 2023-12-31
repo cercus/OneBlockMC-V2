@@ -2,10 +2,15 @@ package fr.cercusmc.oneblockmc.islands;
 
 import fr.cercusmc.oneblockmc.OneBlockMC;
 import fr.cercusmc.oneblockmc.islands.pojo.Island;
+import fr.cercusmc.oneblockmc.utils.MessageUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+
+import java.util.Collections;
+import java.util.Objects;
+import java.util.UUID;
 
 public class ComputeLevelThread implements Runnable {
 
@@ -13,9 +18,12 @@ public class ComputeLevelThread implements Runnable {
 
     private Double level;
 
-    public ComputeLevelThread(Island is) {
+    private UUID uuid;
+
+    public ComputeLevelThread(Island is, UUID uuid) {
         this.is = is;
         this.level = 0.0;
+        this.uuid = uuid;
     }
 
     /**
@@ -39,7 +47,7 @@ public class ComputeLevelThread implements Runnable {
 
         for(int i = center.getBlockX()-radius; i <= center.getBlockX()+radius; i++) {
             for(int j = center.getBlockZ()-radius; j <= center.getBlockZ()+radius; j++) {
-                for(int k = -64; k <= 320; k++) {
+                for(int k = Objects.requireNonNull(center.getWorld()).getMinHeight(); k <= center.getWorld().getMaxHeight(); k++) {
                     Block b = world.getBlockAt(i, k, j);
                     if(OneBlockMC.getLevels().containsKey(b.getType().name())) {
                         this.level += OneBlockMC.getLevels().get(b.getType().name());
@@ -47,8 +55,8 @@ public class ComputeLevelThread implements Runnable {
                 }
             }
         }
+        MessageUtil.sendMessage(this.uuid, OneBlockMC.getMessages().get("display_level"), Collections.singletonMap("%level", this.level));
 
-        System.out.println("level=" + this.level);
     }
 
     public Island getIs() {

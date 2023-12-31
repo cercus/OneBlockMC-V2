@@ -18,10 +18,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.*;
-
-import static fr.cercusmc.oneblockmc.islands.IslandUtils.computeIslandLevel;
 
 public final class OneBlockMC extends JavaPlugin {
 
@@ -71,7 +68,7 @@ public final class OneBlockMC extends JavaPlugin {
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(instance, new SaveFileScheduler(FileType.valueOf(getConfig().getString("file_format", "YAML").toUpperCase())), 0, 20*60*5);
 
-        getCommand("ob").setExecutor(new OneBlockCommand());
+        Objects.requireNonNull(getCommand("ob")).setExecutor(new OneBlockCommand());
 
     }
 

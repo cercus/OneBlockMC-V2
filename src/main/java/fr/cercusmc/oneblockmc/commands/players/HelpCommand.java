@@ -8,9 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class HelpCommand implements SubCommand {
     @Override
@@ -20,7 +18,7 @@ public class HelpCommand implements SubCommand {
 
     @Override
     public String getPermission() {
-        return "oneblock.player.help";
+        return "oneblockmc.player.help";
     }
 
     @Override

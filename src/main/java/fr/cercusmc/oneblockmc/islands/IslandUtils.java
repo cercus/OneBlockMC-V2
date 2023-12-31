@@ -181,8 +181,9 @@ public class IslandUtils {
         return is;
     }
 
-    public static void computeIslandLevel(Island is) {
-        ComputeLevelThread run = new ComputeLevelThread(is);
+    public static void computeIslandLevel(Island is, UUID uuid) {
+        MessageUtil.sendMessage(uuid, OneBlockMC.getMessages().get("computing_level_island"));
+        ComputeLevelThread run = new ComputeLevelThread(is, uuid);
         Thread t = new Thread(run);
         t.start();
 
