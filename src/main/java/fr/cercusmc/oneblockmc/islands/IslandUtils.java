@@ -176,10 +176,19 @@ public class IslandUtils {
     }
 
     public static Island addBan(Island is, final UUID uuid) {
+
+        OneBlockMC.getIslands().remove(is);
+        is.getBans().addPlayer(uuid.toString());
+        OneBlockMC.getIslands().add(is);
+
         return is;
     }
 
     public static Island removeBan(Island is, final UUID uuid) {
+
+        OneBlockMC.getIslands().remove(is);
+        is.getBans().removePlayer(uuid.toString());
+        OneBlockMC.getIslands().add(is);
         return is;
     }
 
