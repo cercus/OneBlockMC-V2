@@ -56,7 +56,14 @@ public class IslandUtils {
     public static BoundingBox getIslandBox(Island is) {
         org.bukkit.World world = is.getLocations().getCenter().getLocation().toLocation().getWorld();
         if(world == null) return null;
-        return BoundingBox.of(is.getLocations().getCenter().getLocation().toLocation(), OneBlockMC.getInstance().getConfig().getDouble("max_radius", 250.0), Math.abs(world.getMinHeight())+world.getMaxHeight(), OneBlockMC.getInstance().getConfig().getDouble("max_radius", 250.0));
+        return getIslandBox(is, OneBlockMC.getInstance().getConfig().getDouble("max_radius", 250.0));
+
+    }
+
+    public static BoundingBox getIslandBox(Island is, double radius) {
+        org.bukkit.World world = is.getLocations().getCenter().getLocation().toLocation().getWorld();
+        if(world == null) return null;
+        return BoundingBox.of(is.getLocations().getCenter().getLocation().toLocation(), radius, Math.abs(world.getMinHeight())+world.getMaxHeight(), radius);
     }
 
     /**
@@ -67,6 +74,17 @@ public class IslandUtils {
      */
     public static boolean playerBelongToIsland(Island is, UUID uuid){
         return playerIsOwner(is, uuid) || playerIsMemberOfIsland(is, uuid);
+    }
+
+    /**
+     * Check if player is in effective island
+     * @param is Island
+     * @param uuid UUID of player
+     * @param loc Location
+     * @return true if player is in effective island
+     */
+    public static boolean playerIsInEffectiveIsland(Island is, UUID uuid, Location loc) {
+        return playerBelongToIsland(is, uuid) && Objects.requireNonNull(getIslandBox(is, is.getStats().getRadius())).contains(loc.getX(), loc.getY(), loc.getZ());
     }
 
     /**
@@ -168,10 +186,17 @@ public class IslandUtils {
     }
 
     public static Island addMember(Island is, final UUID uuid) {
+
+        OneBlockMC.getIslands().remove(is);
+        is.getMembers().addPlayer(uuid.toString());
+        OneBlockMC.getIslands().add(is);
         return is;
     }
 
     public static Island removeMember(Island is, final UUID uuid) {
+        OneBlockMC.getIslands().remove(is);
+        is.getMembers().removePlayer(uuid.toString());
+        OneBlockMC.getIslands().add(is);
         return is;
     }
 
@@ -193,23 +218,63 @@ public class IslandUtils {
     }
 
     public static Island updateSizeIsland(Island is, final int radius) {
+
+        OneBlockMC.getIslands().remove(is);
+        Stats s = is.getStats();
+        s.setRadius(radius);
+        is.setStats(s);
+        OneBlockMC.getIslands().add(is);
         return is;
     }
 
     public static Island modifyCustomName(Island is, final String name) {
+
+        OneBlockMC.getIslands().remove(is);
+        is.setCustomName(name);
+        OneBlockMC.getIslands().add(is);
+
         return is;
     }
 
     public static Island modifyWarp(Island is, final Location newLoc) {
+
+        OneBlockMC.getIslands().remove(is);
+        Loc loc = new Loc();
+        fr.cercusmc.oneblockmc.islands.pojo.Location location = new fr.cercusmc.oneblockmc.islands.pojo.Location();
+        location.setName(Objects.requireNonNull(newLoc.getWorld()).getName());
+        location.setX(newLoc.getX());
+        location.setY(newLoc.getY());
+        location.setZ(newLoc.getZ());
+        loc.setLocation(location);
+        is.getLocations().setWarp(loc);
+        OneBlockMC.getIslands().add(is);
         return is;
     }
 
     public static Island modifyHome(Island is, final Location newLoc) {
 
+        OneBlockMC.getIslands().remove(is);
+        Loc loc = new Loc();
+        fr.cercusmc.oneblockmc.islands.pojo.Location location = new fr.cercusmc.oneblockmc.islands.pojo.Location();
+        location.setName(Objects.requireNonNull(newLoc.getWorld()).getName());
+        location.setX(newLoc.getX());
+        location.setY(newLoc.getY());
+        location.setZ(newLoc.getZ());
+        loc.setLocation(location);
+        is.getLocations().setHome(loc);
+        OneBlockMC.getIslands().add(is);
+
         return is;
     }
 
     public static Island incrementPhaseNumber(Island is) {
+
+        OneBlockMC.getIslands().remove(is);
+        Stats s = is.getStats();
+        s.setPhase((s.getPhase()+1));
+        is.setStats(s);
+        OneBlockMC.getIslands().add(is);
+
         return is;
     }
 

@@ -17,7 +17,7 @@ import java.util.*;
 public class OneBlockCommand implements CommandExecutor {
 
     private static final List<SubCommand> subCommands = Arrays.asList(new CreateCommand(), new DeleteCommand(),
-            new SetHomeCommand(), new DelHomeCommand(), new HomeCommand(), new BanCommand(),
+            new SetHomeCommand(), new HomeCommand(), new BanCommand(),
             new KickCommand(), new SetWarpCommand(), new WarpCommand(), new LeaveCommand(),
             new InviteCommand(), new AcceptCommand(), new DenyCommand(), new HelpCommand(), new LevelCommand());
 

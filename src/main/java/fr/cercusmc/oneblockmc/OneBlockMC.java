@@ -7,6 +7,8 @@ import fr.cercusmc.oneblockmc.islands.BiomeUtils;
 import fr.cercusmc.oneblockmc.islands.IslandUtils;
 import fr.cercusmc.oneblockmc.islands.SaveFileScheduler;
 import fr.cercusmc.oneblockmc.islands.pojo.*;
+import fr.cercusmc.oneblockmc.listeners.BreakBlockListener;
+import fr.cercusmc.oneblockmc.listeners.MovePlayerListener;
 import fr.cercusmc.oneblockmc.listeners.PlaceBlockListener;
 import fr.cercusmc.oneblockmc.utils.Logger;
 import fr.cercusmc.oneblockmc.utils.MessageUtil;
@@ -73,6 +75,8 @@ public final class OneBlockMC extends JavaPlugin {
         Objects.requireNonNull(getCommand("ob")).setExecutor(new OneBlockCommand());
 
         Bukkit.getPluginManager().registerEvents(new PlaceBlockListener(), instance);
+        Bukkit.getPluginManager().registerEvents(new BreakBlockListener(), instance);
+        Bukkit.getPluginManager().registerEvents(new MovePlayerListener(), instance);
 
     }
 
