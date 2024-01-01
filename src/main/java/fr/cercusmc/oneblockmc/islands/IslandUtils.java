@@ -176,7 +176,14 @@ public class IslandUtils {
         return newIs;
     }
 
-    public static Island deleteIsland(Island is) {
+    public static Island deleteIsland(Island is, final UUID uuid) {
+
+        MessageUtil.sendMessage(uuid, OneBlockMC.getMessages().get("delete_island_progress"));
+        DeleteIsland.deleteIsland(is, Bukkit.getPlayer(uuid));
+
+        FileType type = FileType.valueOf(OneBlockMC.getInstance().getConfig().getString("file_format", "YAML").toUpperCase());
+        WriteFile.deleteFile(is.getId(), type);
+        MessageUtil.sendMessage(uuid, OneBlockMC.getMessages().get("delete_island_success"));
 
         return is;
     }
@@ -281,8 +288,14 @@ public class IslandUtils {
     public static void computeIslandLevel(Island is, UUID uuid) {
         MessageUtil.sendMessage(uuid, OneBlockMC.getMessages().get("computing_level_island"));
         ComputeLevelIsland.calcIsland(is, Bukkit.getPlayer(uuid));
+    }
 
-
+    public static Location getSpawn() {
+        String worldName = OneBlockMC.getInstance().getConfig().getString("spawn.world", "world");
+        double x = OneBlockMC.getInstance().getConfig().getDouble("spawn.x");
+        double y = OneBlockMC.getInstance().getConfig().getDouble("spawn.y");
+        double z = OneBlockMC.getInstance().getConfig().getDouble("spawn.z");
+        return new Location(Bukkit.getWorld(worldName), x, y, z);
     }
 
 

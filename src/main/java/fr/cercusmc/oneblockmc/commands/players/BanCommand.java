@@ -59,6 +59,8 @@ public class BanCommand implements SubCommand {
             MessageUtil.sendMessage(player.getUniqueId(), OneBlockMC.getMessages().get("success_ban_player"), Collections.singletonMap("%target%", offlinePlayer.get().getName()));
             MessageUtil.sendMessage(offlinePlayer.get().getUniqueId(), OneBlockMC.getMessages().get("success_ban_target"), Collections.singletonMap("%player%", player.getName()));
 
+            offlinePlayer.get().getPlayer().teleport(IslandUtils.getSpawn());
+
 
         } else {
             MessageUtil.sendMessage(player.getUniqueId(), OneBlockMC.getMessages().get("command_too_many_args"));

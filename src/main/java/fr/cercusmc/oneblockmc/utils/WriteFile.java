@@ -2,6 +2,9 @@ package fr.cercusmc.oneblockmc.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import fr.cercusmc.oneblockmc.OneBlockMC;
+import fr.cercusmc.oneblockmc.islands.pojo.Island;
+import fr.cercusmc.oneblockmc.utils.enums.FileType;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.Tag;
@@ -52,5 +55,17 @@ public class WriteFile {
             return false;
         }
         return true;
+    }
+
+    public static void deleteFile(String fileName, FileType type) {
+        File f = null;
+        switch(type) {
+            case YAML -> f = new File(OneBlockMC.getInstance().getPathIsland()+"yaml/"+fileName+".yml");
+
+            case JSON -> f = new File(OneBlockMC.getInstance().getPathIsland()+"json/"+fileName+".json");
+        }
+
+        if(f.exists()) f.delete();
+
     }
 }

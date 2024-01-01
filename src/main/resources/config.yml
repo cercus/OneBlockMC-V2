@@ -7,3 +7,8 @@ biome_nether_default: "NETHER_WASTES"
 default_radius: 25
 space_between_island: 25
 max_radius: 50
+spawn:
+  world: "world"
+  x: 0.0
+  y: 73.0
+  z: 0.0
