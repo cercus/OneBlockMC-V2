@@ -44,6 +44,8 @@ public final class OneBlockMC extends JavaPlugin {
     File fileYmlFolder;
     String pathIsland;
 
+    private static Map<UUID, UUID> invites = new HashMap<>();
+
     @Override
     public void onEnable() {
         instance = this;
@@ -221,5 +223,9 @@ public final class OneBlockMC extends JavaPlugin {
 
     public World getOverworld() {
         return overworld;
+    }
+
+    public static Map<UUID, UUID> getInvites() {
+        return invites;
     }
 }
