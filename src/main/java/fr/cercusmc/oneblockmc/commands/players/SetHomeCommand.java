@@ -40,6 +40,11 @@ public class SetHomeCommand implements SubCommand {
                 return;
             }
 
+            if(!IslandUtils.playerIsInHisIsland(player)) {
+                MessageUtil.sendMessage(player.getUniqueId(), OneBlockMC.getMessages().get("not_in_island"));
+                return;
+            }
+
             IslandUtils.modifyHome(is.get(), player.getLocation());
             MessageUtil.sendMessage(player.getUniqueId(), OneBlockMC.getMessages().get("success_sethome"));
 

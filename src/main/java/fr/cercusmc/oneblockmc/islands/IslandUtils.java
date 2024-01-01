@@ -151,8 +151,8 @@ public class IslandUtils {
         Loc loc1 = new Loc();
         loc1.setLocation(loc);
 
-        locs.setWarp(loc1);
-        locs.setHome(loc1);
+        locs.setWarp(null);
+        locs.setHome(null);
         locs.setSpawn(loc1);
         locs.setCenter(loc1);
         newIs.setLocations(locs);

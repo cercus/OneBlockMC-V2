@@ -38,10 +38,14 @@ public class HomeCommand implements SubCommand {
 
         if(args.length == 1) {
 
-            player.teleport(Position.getCenterOfBlock(is.get().getLocations().getHome().getLocation().toLocation()));
 
-            MessageUtil.sendMessage(player.getUniqueId(), OneBlockMC.getMessages().get("teleport_player_home"));
+            if(is.get().getLocations().getHome() != null) {
+                player.teleport(Position.getCenterOfBlock(is.get().getLocations().getHome().getLocation().toLocation()));
 
+                MessageUtil.sendMessage(player.getUniqueId(), OneBlockMC.getMessages().get("teleport_player_home"));
+            } else {
+                MessageUtil.sendMessage(player.getUniqueId(), OneBlockMC.getMessages().get("no_home"));
+            }
         } else {
             MessageUtil.sendMessage(player.getUniqueId(), OneBlockMC.getMessages().get("command_too_many_args"));
         }
