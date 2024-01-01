@@ -142,7 +142,6 @@ public class IslandUtils {
 
         Locations locs = new Locations();
         Position coordIsland = Position.findNextLocation(OneBlockMC.getInstance().getConfig().getInt("number_of_island", 0));
-        System.out.println("coordIsland="+coordIsland);
         fr.cercusmc.oneblockmc.islands.pojo.Location loc = new fr.cercusmc.oneblockmc.islands.pojo.Location();
         loc.setName(OneBlockMC.getInstance().getConfig().getString("overworld_name", "Oneblock_overworld"));
         loc.setX(coordIsland.x());
@@ -157,7 +156,6 @@ public class IslandUtils {
         locs.setSpawn(loc1);
         locs.setCenter(loc1);
         newIs.setLocations(locs);
-        System.out.println("newIS="+newIs);
         OneBlockMC.getIslands().add(newIs);
 
         FileType type = FileType.valueOf(OneBlockMC.getInstance().getConfig().getString("file_format", "YAML").toUpperCase());
@@ -173,6 +171,8 @@ public class IslandUtils {
 
         Objects.requireNonNull(Bukkit.getPlayer(uuid)).teleport(Position.getCenterOfBlock(loc.toLocation()));
 
+        OneBlockMC.getInstance().getConfig().set("number_of_island", OneBlockMC.getInstance().getConfig().getInt("number_of_island")+1);
+        OneBlockMC.getInstance().saveConfig();
         return newIs;
     }
 
