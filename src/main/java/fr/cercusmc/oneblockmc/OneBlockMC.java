@@ -10,6 +10,7 @@ import fr.cercusmc.oneblockmc.islands.pojo.*;
 import fr.cercusmc.oneblockmc.listeners.BreakBlockListener;
 import fr.cercusmc.oneblockmc.listeners.MovePlayerListener;
 import fr.cercusmc.oneblockmc.listeners.PlaceBlockListener;
+import fr.cercusmc.oneblockmc.phases.PhaseUtils;
 import fr.cercusmc.oneblockmc.utils.Logger;
 import fr.cercusmc.oneblockmc.utils.MessageUtil;
 import fr.cercusmc.oneblockmc.utils.ReadFile;
@@ -37,6 +38,8 @@ public final class OneBlockMC extends JavaPlugin {
 
     private static List<Biome> biomes;
 
+    private static List<Phase> phases;
+
     private World overworld;
     private World nether;
 
@@ -60,8 +63,7 @@ public final class OneBlockMC extends JavaPlugin {
 
         messages = ReadFile.yamlToMap(instance.getDataFolder().getPath()+"/messages.yml", String.class);
         biomes = BiomeUtils.loadBiomes( instance.getDataFolder().getPath()+"/biomes.yml");
-
-
+        phases = PhaseUtils.loadPhases(instance.getDataFolder().getPath()+"/phases.yml");
         log = new Logger(messages.get("prefix"));
 
         saveDefaultConfig();

@@ -21,7 +21,7 @@ public class IslandUtils {
      * Get island by owner
      * @param islands List of islands
      * @param uuid UUID of player
-     * @return
+     * @return The island of playe
      */
     public static Optional<Island> getIslandByUuid(List<Island> islands, UUID uuid) {
         return islands.stream().filter(k -> k.getId().equals(uuid.toString())).findFirst();
@@ -34,13 +34,19 @@ public class IslandUtils {
      * @return The island at given position
      */
     public static Optional<Island> getIslandByLocation(List<Island> islands, Location loc) {
-
+        if(!Objects.requireNonNull(loc.getWorld()).getName().equals(OneBlockMC.getInstance().getOverworld().getName())) return Optional.empty();
         for(Island is : islands){
             BoundingBox box = BoundingBox.of(is.getLocations().getCenter().getLocation().toLocation(), OneBlockMC.getInstance().getConfig().getDouble("max_radius", 250.0), 250.0, OneBlockMC.getInstance().getConfig().getDouble("max_radius", 250.0));
             if(box.contains(loc.getX(), loc.getY(), loc.getZ())) return Optional.of(is);
 
         }
         return Optional.empty();
+    }
+
+    public static boolean sameWorld(org.bukkit.World w1, org.bukkit.World w2) {
+        if(w1 == null || w2 == null) return false;
+
+        return w1.getName().equals(w2.getName());
     }
 
     /**
@@ -50,7 +56,7 @@ public class IslandUtils {
      */
     public static boolean playerIsInHisIsland(Player p) {
         Optional<Island> is = getIslandByUuid(OneBlockMC.getIslands(), p.getUniqueId());
-        return is.filter(island -> playerBelongToIsland(island, p.getUniqueId()) && Objects.requireNonNull(getIslandBox(island)).contains(p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ())).isPresent();
+        return sameWorld(p.getLocation().getWorld(), OneBlockMC.getInstance().getOverworld()) && is.filter(island -> playerBelongToIsland(island, p.getUniqueId()) && Objects.requireNonNull(getIslandBox(island)).contains(p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ())).isPresent();
     }
 
     public static BoundingBox getIslandBox(Island is) {
